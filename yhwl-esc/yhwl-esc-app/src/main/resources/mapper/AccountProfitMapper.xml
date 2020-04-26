@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhwl.yhwl.esc.api.mapper.AccountProfitMapper">
+
+
+    <update id="updateUpperPledgeSize" >
+        update account_profit set pledge_size = pledge_size + #{size} where user_name in
+        <foreach collection="upperUsers" item="userName" separator="," open="(" close=")">
+            #{userName}
+        </foreach>
+    </update>
+
+    <update id="updateUpperTeamNumber" >
+        update account_profit set miner_number = miner_number + #{number} where user_name in
+        <foreach collection="upperUsers" item="userName" separator="," open="(" close=")">
+            #{userName}
+        </foreach>
+    </update>
+
+    <update id="updateUpperMinerDisk" >
+        update account_profit set disk = disk + #{size} where user_name in
+        <foreach collection="upperUsers" item="userName" separator="," open="(" close=")">
+            #{userName}
+        </foreach>
+    </update>
+
+    <update id="updateUpperTodayProfit" >
+        update account_profit set yesterday_profit = #{profit},total_profit = total_profit + #{profit} where user_name in
+        <foreach collection="upperUsers" item="userName" separator="," open="(" close=")">
+            #{userName}
+        </foreach>
+    </update>
+    <update id="updateMinerNumber">
+        update account_profit set miner_number = miner_number+1 where user_name in
+        <foreach collection="upperUsers" item="userName" separator="," open="(" close=")">
+            #{userName}
+        </foreach>
+    </update>
+</mapper>

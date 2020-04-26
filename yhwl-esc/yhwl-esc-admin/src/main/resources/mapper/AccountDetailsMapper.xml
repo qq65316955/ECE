@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhwl.yhwl.esc.api.mapper.AccountDetailsMapper">
+    <select id="sumByUserOnInOut" resultType="java.lang.Double">
+        SELECT COALESCE(sum(amount),0) from account_details where user_name=#{username} and del_flag=0 and currency=#{currency} and in_or_out=#{item};
+    </select>
+    <select id="sumByUserOnInOuts" resultType="java.lang.Double">
+         SELECT COALESCE(sum(amount),0) from account_details where user_name=#{username} and del_flag=0 and currency=#{currency} and in_or_out in(
+        <foreach collection="item" index="index" item="item" separator=",">
+            #{item}
+        </foreach>
+         );
+    </select>
+    <select id="sumByUserListOnInOut" resultType="java.lang.Double">
+        SELECT COALESCE(sum(amount),0) from account_details where user_name in (
+        <foreach collection="item" index="index" item="item" separator=",">
+            #{item}
+        </foreach>
+        ) and del_flag=0 and currency=#{bmj} and in_or_out=#{value};
+    </select>
+
+    <select id="findTodayIncome" resultType="java.lang.Double" parameterType="java.util.Date">
+        select COALESCE(sum(amount),0) from account_details where create_date between #{begin} and #{end} and in_or_out = '领导奖'
+    </select>
+</mapper>
